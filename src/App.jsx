@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css';
 import NavbarComponent from './components/NavbarComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,19 +6,23 @@ import Login from './components/Login';
 import PostsCard from './components/PostsCard';
 import Profile from './components/Profile';
 import Logout from './components/Logout';
+import Register from './components/Register';
+import {useState} from 'react'
 
 function App() {
+
+  const [token, setToken] = useState("");
   return (
+
     <>
       <NavbarComponent></NavbarComponent>
       <Routes>
-        <Route path='/' element={Login()}></Route>
-        <Route path='/posts' element={PostsCard()}></Route>
-        <Route path='/profile' element={Profile()}></Route>
-        <Route path='/logout' element={Logout()}></Route>
+        <Route path='/' element={<Login token={token} setToken = {setToken}></Login>}></Route>
+        <Route path='/posts' element={<PostsCard></PostsCard>}></Route>
+        <Route path='/profile' element={<Profile></Profile>}></Route>
+        <Route path='/logout' element={<Logout></Logout>}></Route>
+        <Route path='/user/register' element={<Register></Register>}></Route>
       </Routes>
-      
-
     </>
   )
 }
