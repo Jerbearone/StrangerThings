@@ -1,5 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import {useEffect, useState} from 'react';
+import { useNavigate } from 'react-router';
 
 //create a get request to render all posts. We can see if there are any currently in our cohort. If not I will create a few.
 //create post function
@@ -42,8 +43,9 @@ function SingleCard({post}) {
   )
 }
 
-function PostsCard() {
+function PostsCard({token}) {
   const [posts, setPosts] = useState([])
+  const goToNew = useNavigate();
   useEffect(()=> {
     const getPosts = async () => {
       try{
@@ -60,8 +62,16 @@ function PostsCard() {
     getPosts();
   }, []);
 
+
   return (
     <div>
+      <a onClick={()=>{
+        goToNew("/posts/new");
+      }}>Create New</a>
+      
+
+
+
       {
         posts.map((post) => {
           //return <h1 key={post.author._id}>{post.author.username}</h1>

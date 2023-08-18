@@ -38,7 +38,7 @@ export default function Login({token, setToken}) {
                 setToken(data.data.token);
                 console.log(data);
                 if (data.success) {
-                    navigate("/posts")
+                    navigate("/posts", {token:token})
                     
                 }
             }catch(error){
