@@ -1,6 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router';
+import SearchBar from './SearchBar';
 
 //create a get request to render all posts. We can see if there are any currently in our cohort. If not I will create a few.
 //create post function
@@ -44,7 +45,8 @@ function SingleCard({post}) {
 }
 
 function PostsCard({token}) {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const goToNew = useNavigate();
   useEffect(()=> {
     const getPosts = async () => {
@@ -52,6 +54,7 @@ function PostsCard({token}) {
         const response = await fetch(GETPOSTS);
         const data = await response.json();
         setPosts(data.data.posts);
+        setFilteredPosts(data.data.posts);
         console.log(data);
       }catch(error){
         console.log(error)
@@ -68,14 +71,13 @@ function PostsCard({token}) {
       <a onClick={()=>{
         goToNew("/posts/new");
       }}>Create New</a>
+
+      <SearchBar posts={posts} filteredPosts={filteredPosts} setFilteredPosts={setFilteredPosts}></SearchBar>
       
-
-
-
       {
-        posts.map((post) => {
+        filteredPosts.map((post) => {
           //return <h1 key={post.author._id}>{post.author.username}</h1>
-          return(<SingleCard key={post.author._id} post={post}></SingleCard>)
+          return(<SingleCard key={post._id} post={post}></SingleCard>)
         })
       }
     </div>
