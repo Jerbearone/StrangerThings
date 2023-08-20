@@ -13,11 +13,11 @@ import NewPost from './components/NewPost';
 function App() {
 
   const [token, setToken] = useState("");
-  console.log("Token:" + token);
+  console.log("Token (APP):" + token);
   return (
 
     <>
-      <NavbarComponent></NavbarComponent>
+      <NavbarComponent token={token}></NavbarComponent>
       <Routes>
         <Route path='/' element={<Login token={token} setToken = {setToken}></Login>}></Route>
         <Route path='/posts/new' element={<NewPost token={token}></NewPost>}></Route>

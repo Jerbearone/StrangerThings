@@ -15,6 +15,7 @@ export default function Login({token, setToken}) {
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    console.log("in Login component")
     //array containing name and password
     const [userLogin, setUserLogin] = useState(["",""])
     useEffect(()=>{
