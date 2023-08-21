@@ -1,9 +1,8 @@
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import {useState} from 'react'
+
 export default function SearchBar({posts, filteredPosts, setFilteredPosts}) {
-    const [currentPosts, setCurrentPosts] = useState(posts);
-    const [searchedFilteredPosts, setSearchedFilteredPosts] = useState(filteredPosts)
+
     //set filtered posts as displayed post cards
   
 
@@ -11,7 +10,7 @@ export default function SearchBar({posts, filteredPosts, setFilteredPosts}) {
 
     return (<div className='posts_search_bar'>
         
-      <InputGroup size="lg">
+      <InputGroup size="sm">
         <InputGroup.Text id="inputGroup-sizing-lg">Find Post By Username</InputGroup.Text>
         <Form.Control
           aria-label="Large"

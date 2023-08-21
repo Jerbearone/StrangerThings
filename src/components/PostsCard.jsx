@@ -1,61 +1,30 @@
-import Card from 'react-bootstrap/Card';
+
 import {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router';
 import SearchBar from './SearchBar';
+import { getAllPosts } from '../networking/api/api';
+import SingleCard from './SingleCard';
+import Button from 'react-bootstrap/Button';
+import { getToken } from '../networking/localStorage/localStorage';
 
 //create a get request to render all posts. We can see if there are any currently in our cohort. If not I will create a few.
 //create post function
+const token = getToken();
+console.log(token);
 
-const BASEURL = 'https://strangers-things.herokuapp.com/api';
-const COHORT = "2302-acc-pt-web-pt-e";
-const URL = `${BASEURL}/${COHORT}`;
-//get all posts ( will move this to api folder/file)
-const GETPOSTS = `${URL}/posts`;
-
-
-
-function SingleCard({post}) {
- 
-  //Single card that will be mapped
-  console.log("posts");
-  console.log(post);
-  return (
-    <Card className='post_card'>
-    <Card.Header>{post.author.username}</Card.Header>
-    <Card.Body>
-      <blockquote className="blockquote mb-0">
-      <p>
-          {' '}
-          {post.title}
-          {' '}
-        </p>
-        <p>
-          {' '}
-          {post.description}
-          {' '}
-        </p>
-        <footer className="blockquote-footer">
-          Price: <cite title="Source Title">{post.price}</cite>
-        </footer>
-      </blockquote>
-    </Card.Body>
-  </Card>
-
-  )
-}
-
-function PostsCard({token}) {
+function PostsCard() {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
+
+  
   const goToNew = useNavigate();
   useEffect(()=> {
     const getPosts = async () => {
       try{
-        const response = await fetch(GETPOSTS);
-        const data = await response.json();
+        const data = await getAllPosts()
         setPosts(data.data.posts);
         setFilteredPosts(data.data.posts);
-        console.log(data);
+        //console.log(data);
       }catch(error){
         console.log(error)
 
@@ -68,9 +37,13 @@ function PostsCard({token}) {
 
   return (
     <div>
-      <a onClick={()=>{
-        goToNew("/posts/new");
-      }}>Create New</a>
+      {token!== null && <div className='create_new_post_button'>
+        <Button onClick={()=>{
+          
+          goToNew("/posts/new");
+        }}>Create New</Button>
+      </div>}
+      
 
       <SearchBar posts={posts} filteredPosts={filteredPosts} setFilteredPosts={setFilteredPosts}></SearchBar>
       

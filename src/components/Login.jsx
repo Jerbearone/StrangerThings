@@ -2,13 +2,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { saveToken } from '../networking/localStorage/localStorage';
 const BASEURL = 'https://strangers-things.herokuapp.com/api';
 const COHORT = "2302-acc-pt-web-pt-e";
 const URL = `${BASEURL}/${COHORT}`;
-
-
-
 
 export default function Login({token, setToken}) {
 
@@ -37,9 +34,12 @@ export default function Login({token, setToken}) {
                 })
                 const data = await response.json();
                 setToken(data.data.token);
+                //saveToken(data.data.token);
                 console.log(data);
+                saveToken(data.data.token);
                 if (data.success) {
-                    navigate("/posts", {token:token})
+                    
+                    navigate("/")
                     
                 }
             }catch(error){
@@ -89,7 +89,7 @@ export default function Login({token, setToken}) {
             </Form.Text>
 
             <div className="mb-2">
-                <Button variant="primary" onClick={()=>setUserLogin([userName, password])} size="lg">
+                <Button variant="primary" onClick={()=>setUserLogin([userName, password])} size="md">
                     Login
                 </Button>{' '}
             </div>

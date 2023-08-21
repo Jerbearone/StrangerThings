@@ -76,3 +76,14 @@
 .posts_search_bar{
   margin-top: 1rem;
 }
+
+.create_new_post_button{
+  margin-top: .5rem;
+}
+
+.home_page{
+  margin-top: 1rem;
+  background-color: white;
+  padding: .5rem;
+  border-radius: .5rem;
+}
