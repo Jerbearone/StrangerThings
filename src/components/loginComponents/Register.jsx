@@ -1,18 +1,23 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
-import { saveToken } from '../networking/localStorage/localStorage';
+import { saveToken } from '../../networking/localStorage/localStorage';
+import RegisterAlertInvalidSchema from './RegisterAlertInvalidSchema';
+import RegisterAlertFaileCreation from './RegisterAlertFailedCreation';
+
 const BASEURL = 'https://strangers-things.herokuapp.com/api';
 const COHORT = "2302-acc-pt-web-pt-e";
 const URL = `${BASEURL}/${COHORT}`;
 
-export default function Login({token, setToken}) {
+
+
+
+export default function Register() {
 
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-    console.log("in Login component")
+    const [registerToggle, setRegisterToggle] = useState(false);
+    const [failedRegisterToggle, setFailedRegisterToggle] = useState(false);
     //array containing name and password
     const [userLogin, setUserLogin] = useState(["",""])
     useEffect(()=>{
@@ -20,7 +25,7 @@ export default function Login({token, setToken}) {
         console.log(`Username: ${userName} Pass: ${password}` )
         const createAccount = async() => {
             try{
-                const response = await fetch(`${URL}/users/login`, {
+                const response = await fetch(`${URL}/users/register`, {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
@@ -31,30 +36,33 @@ export default function Login({token, setToken}) {
                             password: password
                         }
                     })
-                })
+                });
                 const data = await response.json();
-                setToken(data.data.token);
-                //saveToken(data.data.token);
                 console.log(data);
-                saveToken(data.data.token);
-                if (data.success) {
-                    
-                    navigate("/")
-                    
+                if (!data.success) {
+                    setFailedRegisterToggle(true);
+
+                } else {
+                    saveToken(data.data.token);
                 }
+                console.log(data);
             }catch(error){
-                console.log(error);
-        
+                console.log("error: " + error);
+
             }
         }
         
-        function createLogin() {
+        function registerLogin() {
             if (userName.length > 7 && password.length > 7) {
                 createAccount();
+            } else if 
+                (userName!== "" || password !== ""){
+                    setRegisterToggle(!registerToggle);
             }
+        
         }
 
-        createLogin();
+        registerLogin();
 
     }, userLogin)
 
@@ -70,7 +78,6 @@ export default function Login({token, setToken}) {
                 type="text"
                 id="inputUsername"
                 aria-describedby="passwordHelpBlock"
-                autoComplete='username'
                 onChange={(event)=> setUsername(event.target.value)}
             />
             <Form.Text id="passwordHelpBlock" muted>
@@ -89,10 +96,13 @@ export default function Login({token, setToken}) {
             </Form.Text>
 
             <div className="mb-2">
-                <Button variant="primary" onClick={()=>setUserLogin([userName, password])} size="md">
-                    Login
+                <Button variant="primary" onClick={()=>setUserLogin([userName, password])} size="lg">
+                    Register
                 </Button>{' '}
             </div>
+
+            {registerToggle && <RegisterAlertInvalidSchema></RegisterAlertInvalidSchema>}
+            {failedRegisterToggle && <RegisterAlertFaileCreation></RegisterAlertFaileCreation>}
 
         </div>
     )

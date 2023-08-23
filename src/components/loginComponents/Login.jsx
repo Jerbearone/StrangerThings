@@ -1,18 +1,20 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useState, useEffect} from 'react';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { saveToken } from '../../networking/localStorage/localStorage';
+import LoginAlert from './LoginAlert';
 const BASEURL = 'https://strangers-things.herokuapp.com/api';
 const COHORT = "2302-acc-pt-web-pt-e";
 const URL = `${BASEURL}/${COHORT}`;
 
-
-
-
-export default function Register() {
+export default function Login({token, setToken}) {
 
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const [loginToggle, setLoginToggle] = useState(false);
+    console.log("in Login component")
     //array containing name and password
     const [userLogin, setUserLogin] = useState(["",""])
     useEffect(()=>{
@@ -20,7 +22,7 @@ export default function Register() {
         console.log(`Username: ${userName} Pass: ${password}` )
         const createAccount = async() => {
             try{
-                const response = await fetch(`${URL}/users/register`, {
+                const response = await fetch(`${URL}/users/login`, {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
@@ -33,27 +35,34 @@ export default function Register() {
                     })
                 })
                 const data = await response.json();
+                setToken(data.data.token);
+                //saveToken(data.data.token);
                 console.log(data);
+                saveToken(data.data.token);
+                if (data.success) {    
+                    navigate("/")   
+                } else {
+                    setLoginToggle(true);
+                }
+
             }catch(error){
-                console.log(error);
-        
+                console.log("Error: " + error);
+                console.log("toggle Login");
+                setLoginToggle(true);     
             }
         }
         
-        function registerLogin() {
+        function createLogin() {
             if (userName.length > 7 && password.length > 7) {
                 createAccount();
+            } else if (password!== "" || userName!== "") {
+                setLoginToggle(true);
             }
-        
         }
 
-        registerLogin();
+        createLogin();
 
     }, userLogin)
-
-
-
-
 
 
     return (
@@ -63,6 +72,7 @@ export default function Register() {
                 type="text"
                 id="inputUsername"
                 aria-describedby="passwordHelpBlock"
+                autoComplete='username'
                 onChange={(event)=> setUsername(event.target.value)}
             />
             <Form.Text id="passwordHelpBlock" muted>
@@ -81,10 +91,12 @@ export default function Register() {
             </Form.Text>
 
             <div className="mb-2">
-                <Button variant="primary" onClick={()=>setUserLogin([userName, password])} size="lg">
-                    Register
+                <Button variant="primary" onClick={()=>setUserLogin([userName, password])} size="md">
+                    Login
                 </Button>{' '}
             </div>
+            <Link to="/user/register">Register here</Link>
+            {loginToggle && <LoginAlert></LoginAlert>}
 
         </div>
     )

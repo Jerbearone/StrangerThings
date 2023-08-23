@@ -1,4 +1,4 @@
-import { deleteToken } from "../networking/localStorage/localStorage"
+import { deleteToken } from "../../networking/localStorage/localStorage"
 import Login from "./Login";
 import { useNavigate } from "react-router";
 
