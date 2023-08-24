@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { getToken } from '../networking/localStorage/localStorage';
 import { getUserData, sendPost } from '../networking/api/api';
 
-export default function NewPost() {
+export default function NewPost({toast, setToast, setToastMessage}) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -32,7 +32,18 @@ export default function NewPost() {
 
     useEffect(() => {
 
-        sendPost(token, post);
+        const getResponse = async() => {
+            const data = await sendPost(token, post);
+            if (data.success) {
+                //create toast message
+                setToastMessage("Successfully created Message!");
+                setToast(!toast);
+            }
+
+        }
+        getResponse();
+          
+
     },[post])
 
     async function submitPost() {

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { getToken } from '../networking/localStorage/localStorage';
 import { sendMessage} from '../networking/api/api';
 
-export default function NewMessage({messageId, username}) {
+export default function NewMessage({messageId, username, toast, setToast, setToastMessage}) {
     /*const {state} = useLocation()
     const {username} = state;*/
     const [id, setId] = useState(messageId);
@@ -14,9 +14,19 @@ export default function NewMessage({messageId, username}) {
 
 
     useEffect(() => {
-        if (id !== "" && message !== "" && token !== null && messageToggle) {
-            console.log("sending mesage...")
-            sendMessage(id, token, message);
+        if (id !== "" && message !== "" && token !== null ) {
+            console.log("sending message...")
+            const getResponse = async() => {
+                const data = await sendMessage(id, token, message);
+                if (data.success) {
+                    //create toast message
+                    setToast(!toast);
+                    setToastMessage(`Successfully sent message to `)
+                }
+
+            }
+            getResponse();
+            
 
         } else {
             console.log(`Could not send message ID: ${id} message: ${message} token : ${token}`)
@@ -35,7 +45,7 @@ export default function NewMessage({messageId, username}) {
             <br></br>
 
             <div className="mb-2">
-                <Button variant="primary" onClick={()=>setMessageToggle(true)} size="md">
+                <Button variant="primary" onClick={()=>setMessageToggle(!messageToggle)} size="md">
                     Send Message
                 </Button>{' '}
             </div>

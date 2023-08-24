@@ -11,23 +11,27 @@ import {useState} from 'react'
 import NewPost from './components/NewPost';
 import Home from './components/Home';
 import NewMessage from './components/NewMessage';
+import ToastMessage from './components/ToastMessage';
 
 function App() {
 
   const [token, setToken] = useState(null);
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("")
   console.log("Token (APP):" + token);
   return (
 
     <div className='root_view'>
       <NavbarComponent token={token}></NavbarComponent>
+      {<ToastMessage toast={toast} toastMessage={toastMessage}></ToastMessage>}
       <div className='root_child'>
         <Routes>
           <Route path='/' element={<Home></Home>}></Route>
           <Route path='/login' element={<Login token={token} setToken = {setToken}></Login>}></Route>
-          <Route path='/posts/new' element={<NewPost token={token}></NewPost>}></Route>
-          <Route path='/posts' element={<PostsCard ></PostsCard>}></Route>
+          <Route path='/posts/new' element={<NewPost token={token} setToast={setToast} toast={toast} setToastMessage={setToastMessage}></NewPost>}></Route>
+          <Route path='/posts' element={<PostsCard setToast={setToast} toast={toast} setToastMessage={setToastMessage}></PostsCard>}></Route>
           <Route path='/posts/message' element={<NewMessage></NewMessage>}></Route>
-          <Route path='/profile' element={<Profile></Profile>}></Route>
+          <Route path='/profile' element={<Profile setToast={setToast} toast={toast} setToastMessage={setToastMessage}></Profile>}></Route>
           <Route path='/logout' element={<Logout></Logout>}></Route>
           <Route path='/user/register' element={<Register></Register>}></Route>
         </Routes>

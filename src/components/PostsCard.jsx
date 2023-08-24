@@ -12,7 +12,7 @@ import { getToken } from '../networking/localStorage/localStorage';
 const token = getToken();
 console.log(token);
 
-function PostsCard() {
+function PostsCard({toast, setToast, setToastMessage}) {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [username, setUsername] = useState(null);
@@ -70,7 +70,7 @@ function PostsCard() {
       {
         filteredPosts.map((post) => {
           //return <h1 key={post.author._id}>{post.author.username}</h1>
-          return(<SingleCard key={post._id} post={post} username = {username}></SingleCard>)
+          return(<SingleCard setToast={setToast} toast={toast} setToastMessage={setToastMessage} key={post._id} post={post} username = {username}></SingleCard>)
         })
       }
     </div>

@@ -2,7 +2,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 import NewMessage from './NewMessage';
-export default function SingleCard({post, username}) {
+export default function SingleCard({post, username, toast, setToast, setToastMessage}) {
   const [messageVisible, setMessageVisible] = useState(false)
   const changeMessageVisibility = () => {
     setMessageVisible(!messageVisible);
@@ -36,7 +36,7 @@ export default function SingleCard({post, username}) {
                 Message {post.author.username}
               </Button>}
               
-              {messageVisible && <div> <br></br> <br></br> <NewMessage  username={post.author.username} messageId={post._id}></NewMessage></div>}
+              {messageVisible && <div> <br></br> <br></br> <NewMessage setToast={setToast} toast={toast} setToastMessage={setToastMessage}  username={post.author.username} messageId={post._id}></NewMessage></div>}
             </div>
               
           </blockquote>

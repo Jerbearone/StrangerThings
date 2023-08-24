@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { getToken } from '../networking/localStorage/localStorage';
 import { sendPost, updatePost } from '../networking/api/api';
 
-export default function EditPost({post}) {
+export default function EditPost({post, toast, setToast, clickEffectToggle, setClickEffectToggle, setToastMessage}) {
     console.log("POST" + post)
     const [title, setTitle] = useState(post.title);
     const [description, setDescription] = useState(post.description);
@@ -20,7 +20,17 @@ export default function EditPost({post}) {
             //set user to object to post to api
 
             //update post
-            updatePost(post._id, token, title, description, price);
+            const getResponse = async()=> {
+                const data = await updatePost(post._id, token, title, description, price);
+                if (data.success) {
+                    setToastMessage("Successfully edited post!")
+                    setToast(!toast);
+                    setClickEffectToggle(!clickEffectToggle);
+                }
+            }
+
+            getResponse();
+            
         }
     }
 

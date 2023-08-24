@@ -59,6 +59,7 @@
 .main_navbar{
   display: flex;
   width: 100%;
+  margin-bottom: .5rem
 }
 
 .post_card{
@@ -83,7 +84,6 @@
 
 .home_page{
   margin-top: 1rem;
-  background-color: white;
   padding: .5rem;
   border-radius: .5rem;
 }
@@ -101,4 +101,16 @@
   justify-content: center;
   align-items: center;
 
+}
+
+h3{
+  background-color: aliceblue;
+  padding: 1rem;
+  border-radius: .5rem;
+}
+
+.toast_message{
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
 }

@@ -3,9 +3,11 @@ import Button from 'react-bootstrap/Button';
 import { deletePost } from '../networking/api/api';
 import EditPost from './EditPost';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-export default function SingleProfileCard({post, token}) {
+export default function SingleProfileCard({post, token,toast, setToast, clickEffectToggle, setClickEffectToggle, setToastMessage}) {
   const [editClicked, setEditClicked] = useState(false);
+  const navigate = useNavigate();
   
  
     //Single card that will be mapped
@@ -57,13 +59,28 @@ export default function SingleProfileCard({post, token}) {
         }} size="md">
             Edit Post
         </Button>}
-        {editClicked && <EditPost post={post}></EditPost>}
+        {editClicked && <EditPost toast={toast} setToast={setToast} clickEffectToggle={clickEffectToggle}
+         setClickEffectToggle={setClickEffectToggle} setToastMessage={setToastMessage} post={post}></EditPost>}
         <hr></hr>
         
 
         {post.active && <Button variant="primary" onClick={()=>{
           //delete post
-          deletePost(post._id, token);
+          const getResponse = async() => {
+            const responseData = await deletePost(post._id, token);
+            console.log(responseData);
+            if (responseData.success) {
+              console.log("Sucessfully Deleted!")
+              //refresh page
+              setToast(!toast);
+              setToastMessage("Successfully deleted post!")
+              setClickEffectToggle(!clickEffectToggle);
+            }
+
+          }
+          getResponse();
+          
+
         }} size="md">
             Delete Post
         </Button>}
