@@ -1,7 +1,8 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useState, useEffect} from 'react';
-import { saveToken } from '../../networking/localStorage/localStorage';
+import { useNavigate } from 'react-router';
+import { saveToken, saveUserName } from '../../networking/localStorage/localStorage';
 import RegisterAlertInvalidSchema from './RegisterAlertInvalidSchema';
 import RegisterAlertFaileCreation from './RegisterAlertFailedCreation';
 
@@ -18,6 +19,7 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [registerToggle, setRegisterToggle] = useState(false);
     const [failedRegisterToggle, setFailedRegisterToggle] = useState(false);
+    const navigate = useNavigate();
     //array containing name and password
     const [userLogin, setUserLogin] = useState(["",""])
     useEffect(()=>{
@@ -43,7 +45,11 @@ export default function Register() {
                     setFailedRegisterToggle(true);
 
                 } else {
-                    saveToken(data.data.token);
+                    
+                    navigate("/login");
+
+
+                    
                 }
                 console.log(data);
             }catch(error){

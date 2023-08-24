@@ -2,7 +2,7 @@
 import {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router';
 import SearchBar from './SearchBar';
-import { getAllPosts } from '../networking/api/api';
+import { getAllPosts, getUserData} from '../networking/api/api';
 import SingleCard from './SingleCard';
 import Button from 'react-bootstrap/Button';
 import { getToken } from '../networking/localStorage/localStorage';
@@ -15,6 +15,7 @@ console.log(token);
 function PostsCard() {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [username, setUsername] = useState(null);
 
   
   const goToNew = useNavigate();
@@ -34,6 +35,25 @@ function PostsCard() {
     getPosts();
   }, []);
 
+  
+  useEffect(()=> {
+        
+    const getData = async()=> {
+        if (token !== null) {
+            const data= await getUserData(token);
+            setUsername(data.data.username);
+            console.log(data.data.username);
+            console.log("User Data: " + data);
+
+        } else {
+            console.log("Null Token");
+        }
+    }
+    getData();
+},[])
+
+
+
 
   return (
     <div>
@@ -50,7 +70,7 @@ function PostsCard() {
       {
         filteredPosts.map((post) => {
           //return <h1 key={post.author._id}>{post.author.username}</h1>
-          return(<SingleCard key={post._id} post={post}></SingleCard>)
+          return(<SingleCard key={post._id} post={post} username = {username}></SingleCard>)
         })
       }
     </div>

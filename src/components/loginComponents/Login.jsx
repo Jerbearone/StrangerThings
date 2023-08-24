@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {useState, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { saveToken } from '../../networking/localStorage/localStorage';
+import { saveToken, saveUserName } from '../../networking/localStorage/localStorage';
 import LoginAlert from './LoginAlert';
 const BASEURL = 'https://strangers-things.herokuapp.com/api';
 const COHORT = "2302-acc-pt-web-pt-e";
@@ -39,6 +39,7 @@ export default function Login({token, setToken}) {
                 //saveToken(data.data.token);
                 console.log(data);
                 saveToken(data.data.token);
+                saveUserName(data.data.username);
                 if (data.success) {    
                     navigate("/")   
                 } else {

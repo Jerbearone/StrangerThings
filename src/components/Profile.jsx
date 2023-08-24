@@ -38,11 +38,7 @@ export default function Profile() {
             {userPosts.map((post)=>{
                 
                 return <SingleProfileCard key={post.id} post={post} token={token}></SingleProfileCard>
-
             })}
-
-            
-            
         </div>
     )
 }

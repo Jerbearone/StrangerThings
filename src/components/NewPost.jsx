@@ -2,15 +2,32 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from 'react';
 import { getToken } from '../networking/localStorage/localStorage';
-import { sendPost } from '../networking/api/api';
+import { getUserData, sendPost } from '../networking/api/api';
 
 export default function NewPost() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [post, setPost] = useState({});
+    const [username, setUsername] = useState(null);
     const token = getToken();
     console.log(token);
+
+    useEffect(()=> {
+        
+        const getData = async()=> {
+            if (token !== null) {
+                const data= await getUserData(token);
+                setUsername(data.data.username);
+                console.log(data.data.username);
+                console.log("User Data: " + data);
+
+            } else {
+                console.log("Null Token");
+            }
+        }
+        getData();
+    },[])
 
 
     useEffect(() => {

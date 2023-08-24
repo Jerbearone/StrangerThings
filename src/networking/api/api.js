@@ -120,6 +120,7 @@ const sendMessage = async (id, token, message) => {
         });
         const result = await response.json();
         console.log(result);
+        return result;
 
 
 
