@@ -11,7 +11,7 @@ export default function SearchBar({posts, filteredPosts, setFilteredPosts}) {
     return (<div className='posts_search_bar'>
         
       <InputGroup size="sm">
-        <InputGroup.Text id="inputGroup-sizing-lg">Find Post By Username</InputGroup.Text>
+        <InputGroup.Text id="inputGroup-sizing-lg">Find Post</InputGroup.Text>
         <Form.Control
           aria-label="Large"
           aria-describedby="inputGroup-sizing-sm"
@@ -23,7 +23,7 @@ export default function SearchBar({posts, filteredPosts, setFilteredPosts}) {
             if (posts != []){
                 const newFilteredList = tempPosts.filter((postData)=> {
             
-                    const user = postData.author.username;
+                    const user = postData.author.username + postData.description + postData.title + postData.price ;
                     const userLowercase = user.toLowerCase();
                     console.log("user" + user);
                     if (userLowercase.includes(userInput.toLowerCase())){
