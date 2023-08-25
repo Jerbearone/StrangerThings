@@ -20,8 +20,9 @@ export default function NewMessage({messageId, username, toast, setToast, setToa
                 const data = await sendMessage(id, token, message);
                 if (data.success) {
                     //create toast message
-                    setToast(!toast);
+                    
                     setToastMessage(`Successfully sent message to `)
+                    setToast(!toast);
                 }
 
             }

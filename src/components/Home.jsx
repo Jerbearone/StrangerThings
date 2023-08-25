@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { getUserData } from "../networking/api/api";
 import { getToken } from "../networking/localStorage/localStorage";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function Home() {
     const [username, setUsername] = useState(null);
