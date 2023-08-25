@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { getUserData } from "../networking/api/api";
 import { getToken } from "../networking/localStorage/localStorage";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 
 export default function Home() {
     const [username, setUsername] = useState(null);
@@ -17,9 +17,9 @@ export default function Home() {
             console.log(data)
             if (token !== null) {
                 setTimeout(() => {
-                    navigate("/posts");
-                    
-
+                    navigate("../posts",{replace:true})
+                    navigate(0)
+                
                 }, 2000)
             }
 
